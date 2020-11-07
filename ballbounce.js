@@ -779,7 +779,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         canvas.style.background = style
         window.setInterval(function () {
             main()
-        }, 25)
+        }, 33)
         document.addEventListener('keydown', (event) => {
             keysPressed[event.key] = true;
         });
@@ -998,6 +998,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let counterball = 0
     let score = 0
     let shaker = 0
+    let rebound = 1
 
     ballcount.innerText ="Balls left: " +(99-counter)
     function main() {
@@ -1012,7 +1013,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         counterball++
         if (counterball % 50 == 0) {
             if (counter < 99) {
-                let ball = new Circle(350, 350, 10, "white", -9 * (Math.random() - .5), -9 * (Math.random() - .5), 1, 1)
+                let ball = new Circle(350, 350, 10, getRandomLightColor(), -9 * (Math.random() - .5), -9 * (Math.random() - .5), 1, 1)
                 balls.push(ball)
                 counter++
                 ballcount.innerText ="Balls left: " +(99-counter)
@@ -1024,7 +1025,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     balls[s].xmom *= -1
                     balls[s].ymom += paddle1.ymom
                     score++
-                    balls[s].radius += .1
+                    balls[s].radius += rebound
                 }
                 shaker = 3
             }
@@ -1033,7 +1034,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     balls[s].ymom *= -1
                     balls[s].xmom += paddle2.xmom
                     score++
-                    balls[s].radius += .1
+                    balls[s].radius += rebound
                 }
                 shaker = 3
             }
@@ -1042,7 +1043,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     balls[s].xmom *= -1
                     balls[s].ymom += paddle3.ymom
                     score++
-                    balls[s].radius += .1
+                    balls[s].radius += rebound
                 }
                 shaker = 3
             }
@@ -1051,7 +1052,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     balls[s].ymom *= -1
                     balls[s].xmom += paddle4.xmom
                     score++
-                    balls[s].radius += .1
+                    balls[s].radius += rebound
                 }
                 shaker = 3
             }
@@ -1060,6 +1061,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             balls[s].move()
             balls[s].draw()
+            let tipper = {}
+            tipper.x = (balls[s].x+(100*balls[s].xmom))
+            tipper.y = (balls[s].y+(100*balls[s].ymom))
+            let link = new LineOP(balls[s],tipper, balls[s].color, .5)
+            link.draw()
 
 
         }
